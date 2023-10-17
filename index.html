@@ -1,0 +1,332 @@
+<!-- HTML -->
+<!--
+  Donothon Counter for StreamElements
+  Author: LordLumineer
+  Repository: [https://github.com/LordLumineer/CustomStreamElementsWidget/tree/main/DonothonCounter/Interactive]
+  
+  Feel free to use, modify, and share this code in accordance with the MIT License.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="body">
+      <div class="widget-wrap">
+        <div id="goal-list" class="goal-list-wrap"></div>
+        <div id="progress-bar" class="progress-bar-wrap">
+          <div class="progress-wrap">
+            <div class="progress-top">
+              <div id="ratio-txt" class="ratio-txt"></div>
+              <div class="mid-line"></div>
+            </div>
+            <div class="progress-bottom-txt-wrap">
+              <div id="progress-amount-txt" class="progress-amount-txt"></div>
+            </div>
+          </div>
+          <div class="remaining-wrap">
+            <div class="remaining-top">
+              <div id="remaining-total-txt" class="remaining-total-txt"></div>
+            </div>
+            <div class="remaining-bottom-spacer">I</div>
+          </div>
+        </div>
+      </div>
+      <div class="single-setting-wrap">
+        <button id="toggle-settings-wrap" class="toggle-button">
+          <div class="toggle-dot"></div>
+        </button>
+        Show settings
+      </div>
+      <div id="debug" class="debug">
+        <div class="settings-wrap">
+          <div class="single-setting-wrap">
+            <button id="refresh-settings">Refresh Settings</button>
+            <button id="save-settings">Save Settings</button>
+          </div>
+          <div class="single-setting-wrap">
+            <button id="toggle-debug-goal-list" class="toggle-button">
+              <div class="toggle-dot"></div>
+            </button>
+            Show debug goals list
+          </div>
+          <div class="single-setting-wrap">
+            <button id="toggle-ctrl-settings" class="toggle-button">
+              <div class="toggle-dot"></div>
+            </button>
+            Show Control settings
+          </div>
+          <div id="ctrl-settings" class="settings">
+            <div class="MkRm-goals">
+              <div class="add-goal">
+                <input
+                  type="text"
+                  id="goal-description"
+                  placeholder="Goal description"
+                />
+                <input
+                  type="number"
+                  id="goal-amount"
+                  placeholder="Goal amount"
+                />
+                <button id="add-goal" disabled="true">Add Goal</button>
+              </div>
+              <div class="remove-goal">
+                <button id="remove-last">Remove Last Goal</button>
+                <button id="remove-bottom">Remove Bottom Goal</button>
+                <button id="remove-top">Remove Top Goal</button>
+              </div>
+              <button
+                id="remove-all"
+                style="
+                  width: 100%;
+                  background-color: rgb(218, 76, 76);
+                  color: rgb(255, 255, 255);
+                "
+              >
+                Remove All Goals
+              </button>
+            </div>
+            <hr class="separator" />
+            <div class="amount-wrap">
+              <div class="single-setting-wrap">
+                <div class="single-setting-wrap">
+                  <input type="number" id="total" placeholder="Total amount" />
+                  <button id="apply-total" disabled="true">Apply Total</button>
+                </div>
+                <div class="single-setting-wrap">
+                  <input
+                    type="number"
+                    id="offset"
+                    placeholder="Offset amount"
+                  />
+                  <button id="apply-offset" disabled="true">
+                    Apply Offset
+                  </button>
+                </div>
+              </div>
+              <button
+                id="reset"
+                style="
+                  width: 100%;
+                  background-color: rgb(218, 76, 76);
+                  color: rgb(255, 255, 255);
+                  font-weight: bold;
+                "
+              >
+                Reset Raised Amount
+              </button>
+            </div>
+          </div>
+          <hr class="separator" />
+          <div class="single-setting-wrap">
+            <button id="toggle-event-settings" class="toggle-button">
+              <div class="toggle-dot"></div>
+            </button>
+            Show events configuration, it uses as currency the one you set in
+            StreamElements
+          </div>
+          <div id="events-settings" class="events-settings">
+            <div class="single-setting-wrap">
+              <div class="single-setting-wrap">
+                <button id="toggle-subs" class="toggle-button">
+                  <div class="toggle-dot"></div>
+                </button>
+                Enable Subs
+              </div>
+              <div class="single-setting-wrap">
+                <input type="number" id="sub-factor" value="5" />
+                How much is a sub worth
+              </div>
+            </div>
+            <div class="single-setting-wrap">
+              <div class="single-setting-wrap">
+                <button id="toggle-bits" class="toggle-button">
+                  <div class="toggle-dot"></div>
+                </button>
+                Enable Bits/Cheers
+              </div>
+              <div class="single-setting-wrap">
+                <input type="number" id="bits-factor" value="250" />
+                How many bits is 1 of your currency
+              </div>
+            </div>
+            <div class="single-setting-wrap">
+              <div class="single-setting-wrap">
+                <button id="toggle-tips" class="toggle-button">
+                  <div class="toggle-dot"></div>
+                </button>
+                Enable Tips/Donations
+              </div>
+              <div class="single-setting-wrap">
+                <input type="number" id="tips-factor" value="1" />
+                Factor used to take into account fees from
+                Paypal/StreamElements/...
+              </div>
+            </div>
+            <div class="single-setting-wrap">
+              <div class="single-setting-wrap">
+                <button id="toggle-throne" class="toggle-button">
+                  <div class="toggle-dot"></div>
+                </button>
+                Enable Throne
+              </div>
+              <input
+                type="text"
+                id="throne-username"
+                placeholder="Throne Username"
+              />
+              <div class="single-setting-wrap">
+                <input type="number" id="throne-factor" value="1" />
+                Factor used to take into account fees from throne
+              </div>
+            </div>
+          </div>
+          <hr class="separator" />
+          <div class="single-setting-wrap">
+            <button id="toggle-customization" class="toggle-button">
+              <div class="toggle-dot"></div>
+            </button>
+            Show customization settings
+          </div>
+          <div id="ctrl-customization" class="settings">
+            <div class="single-setting-wrap">
+              <button id="toggle-goals" class="toggle-button">
+                <div class="toggle-dot"></div>
+              </button>
+              Show Goals
+            </div>
+            <div class="single-setting-wrap">
+              <button id="toggle-progress" class="toggle-button">
+                <div class="toggle-dot"></div>
+              </button>
+              Show Progress
+            </div>
+            <div class="single-setting-wrap">
+              <input type="number" id="nb-goals" value="7" />
+              Number of Goals to show (1 reached + amount of goals)
+            </div>
+            <div class="single-setting-wrap">
+              <select id="selector-goal-alignment">
+                <option value="TL">Top left</option>
+                <option value="TC">Top center</option>
+                <option value="TR">Top right</option>
+                <option value="BL">Bottom left</option>
+                <option value="BC">Bottom center</option>
+                <option value="BR">Bottom right</option>
+              </select>
+              Alignment of the goals
+            </div>
+            <div class="single-setting-wrap">
+              <select id="selector-themes">
+                <option value="gold">Gold</option>
+                <option value="peach">Peach</option>
+                <option value="lavender">Lavender</option>
+                <option value="custom">Custom</option>
+              </select>
+              Alignment of the goals
+            </div>
+            <div id="custom-accent" class="single-setting-wrap">
+              <div class="color-picker">
+                <div class="color-preview"></div>
+                <div class="color-selector">
+                  <div class="mui-slider">
+                    R
+                    <input
+                      type="range"
+                      id="red"
+                      min="0"
+                      max="255"
+                      value="133"
+                    />
+                    <input
+                      type="number"
+                      id="red-value"
+                      min="0"
+                      max="255"
+                      value="133"
+                    />
+                  </div>
+                  <div class="mui-slider">
+                    G
+                    <input
+                      type="range"
+                      id="green"
+                      min="0"
+                      max="255"
+                      value="176"
+                    />
+                    <input
+                      type="number"
+                      id="green-value"
+                      min="0"
+                      max="255"
+                      value="176"
+                    />
+                  </div>
+                  <div class="mui-slider">
+                    B
+                    <input
+                      type="range"
+                      id="blue"
+                      min="0"
+                      max="255"
+                      value="232"
+                    />
+                    <input
+                      type="number"
+                      id="blue-value"
+                      min="0"
+                      max="255"
+                      value="232"
+                    />
+                  </div>
+                </div>
+              </div>
+              Custom accent color
+            </div>
+            <div class="single-setting-wrap">
+              <button id="toggle-animation" class="toggle-button">
+                <div class="toggle-dot"></div>
+              </button>
+              Toggle animation
+            </div>
+          </div>
+        </div>
+
+        <hr class="separator" />
+        <div id="debug-goal-list" class="debug-goal-list"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+<link
+  href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+  rel="stylesheet"
+/>
+
+<!--
+  Copyright (c) 2023 Lord Lumineer (github -- LordLumineer).
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
