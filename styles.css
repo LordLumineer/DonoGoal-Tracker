@@ -54,6 +54,25 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   height: 95%;
 }
 
+.show-settings {
+    display: flex;
+    opacity: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    width: fit-content;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+    background-color: hsl(0, 0%, 95%);
+    transition: opacity 0.2s ease-in-out;
+}
+
+.body:hover .show-settings {
+    opacity: 1;
+}
+
 /* Used widget */
 .widget-wrap {
   display: flex;
@@ -190,7 +209,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   margin-top: 2rem;
   gap: 0.5rem;
   overflow-y: scroll;
-  background-color: #ccc;
+  background-color: hsl(0, 0%, 95%);
 }
 .debug-goal-list {
   display: flex;
@@ -225,7 +244,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   gap: 0.5rem;
   width: 100%;
   font-size: 0.75rem;
-  background-color: #ccc;
 }
 .settings {
   display: flex;
